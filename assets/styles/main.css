@@ -10,6 +10,13 @@
     /* font-family: 'Times New Roman', Times, serif; */
 }
 
+.cormorant-font-main {
+  font-family: "Cormorant", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
 .crimson-text-regular {
     font-family: "Crimson Text", serif;
     font-weight: 400;
@@ -60,4 +67,22 @@
         border: #212529;
         color: var(--background-color)!important;
     }
+}
+
+
+.landing-image {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.landing-image h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.landing-image img {
+    filter: brightness(62%);
 }
