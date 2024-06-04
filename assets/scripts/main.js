@@ -1,0 +1,1 @@
+document.getElementById('current-age').innerHTML = Math.floor((new Date() - new Date('2000-07-18').getTime()) / 3.15576e+10);
