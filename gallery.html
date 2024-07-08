@@ -11,13 +11,227 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <!-- Masonry -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="../assets/styles/main.css">
+    <style>
+        * { box-sizing: border-box; }
+        /* force scrollbar */
+        html { overflow-y: scroll; }
+
+        body { font-family: sans-serif; }
+
+        /* ---- grid ---- */
+
+        .masonry-grid {
+            background: #212529;
+        }
+
+        /* clear fix */
+        .masonry-grid:after {
+        content: '';
+        display: block;
+        clear: both;
+        }
+
+        /* ---- .grid-item ---- */
+
+        .masonry-grid-sizer,
+        .masonry-grid-item {
+        width: 33.333%;
+        }
+
+        .masonry-grid-item {
+        float: left;
+        }
+
+        .masonry-grid-item img {
+        display: block;
+        max-width: 100%;
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand cormorant-font-main" href="/index.html">Luthier Magnus Birch</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/about.html">About me</a>
+                <a class="nav-item nav-link active" href="/gallery.html">Gallery</a>
+                <a class="nav-item nav-link" href="/contact.html">Contact</a>
+              </div>
+            </div>
+          </nav>
+    <div class="container" id="gallery-content"></div>
     <script>
-        
-    </script>
-    
+        const metadata = {
+            "290947182_1675914419453144_6585428990534978316_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=9",
+            "290949745_430368658950816_1024095501506690186_n.jpg" : "https://www.instagram.com/p/CfcKUY4MQsB/?img_index=6",
+            "290950542_429431002440380_9025943743795863725_n.jpg" : "https://www.instagram.com/p/CfcKUY4MQsB/?img_index=2",
+            "290988704_3261658134074938_4791582904013782674_n.jpg" : "https://www.instagram.com/p/CfcKUY4MQsB/?img_index=3",
+            "291247898_3280033152229022_8300644141023380139_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=10",
+            "296320734_576842080773093_8754317117624128098_n.jpg" : "https://www.instagram.com/p/Cgh1cu9MuLZ/?img_index=4",
+            "305868874_186698320420577_1877420776020657906_n.jpg" : "https://www.instagram.com/p/CiSo9r2scNp/?img_index=2",
+            "306044418_5400851586700849_57676536702668012_n.jpg" : "https://www.instagram.com/p/CiSo9r2scNp/?img_index=3",
+            "311157953_410632951244932_6468322756373858338_n.jpg" : "https://www.instagram.com/p/CjkSp-eslOu/?img_index=1",
+            "311191256_633626368436735_4014689983216882320_n.jpg" : "https://www.instagram.com/p/CjkSp-eslOu/?img_index=2",
+            "316723652_682862273205115_2178900052406503087_n.jpg" : "https://www.instagram.com/p/ClbHjNNsvJQ/?img_index=1",
+            "316862939_447771830671434_5269111281004021920_n.jpg" : "https://www.instagram.com/p/ClbHjNNsvJQ/?img_index=5",
+            "316998555_540175464264694_1618542263888474622_n.jpg" : "https://www.instagram.com/p/ClbHjNNsvJQ/?img_index=2",
+            "316999721_538663797766364_2587481139460291812_n.jpg" : "https://www.instagram.com/p/ClbHjNNsvJQ/?img_index=6",
+            "317138692_522462993237966_1784599084121386073_n.jpg" : "https://www.instagram.com/p/ClbHjNNsvJQ/?img_index=3",
+            "317156999_557589566194385_2278432437392451526_n.jpg" : "https://www.instagram.com/p/ClbHjNNsvJQ/?img_index=4",
+            "319304200_3339309289650889_7918049965812855641_n.jpg" : "https://www.instagram.com/p/CmKh-MgrmIh/",
+            "320290124_178270014806619_5684279623537472506_n.jpg" : "https://www.instagram.com/p/CmUNWQXMHHL/",
+            "324545395_711526967274638_8881198689011381483_n.jpg" : "https://www.instagram.com/p/CnUrrmhMAbb/?img_index=2",
+            "324703171_904122990757847_4899707868611603650_n.jpg" : "https://www.instagram.com/p/CnUrrmhMAbb/?img_index=5",
+            "324850937_560423349293375_4670587728581132049_n.jpg" : "https://www.instagram.com/p/CnUrrmhMAbb/?img_index=4",
+            "324900379_561836339133479_2966797847021082027_n.jpg" : "https://www.instagram.com/p/CnUrrmhMAbb/?img_index=6",
+            "325184705_727516708611604_694618021132718713_n.jpg" : "https://www.instagram.com/p/CnUrrmhMAbb/?img_index=3",
+            "325297559_497447825633432_1831563320819261914_n.jpg" : "https://www.instagram.com/p/CnUrrmhMAbb/?img_index=1",
+            "330395865_531951002336664_3396684048127931024_n.jpg" : "https://www.instagram.com/p/Cokv1cys5sa/?img_index=3",
+            "330611640_780208026770896_3458142180126708418_n.jpg" : "https://www.instagram.com/p/Cokv1cys5sa/?img_index=1",
+            "330649316_1517400308742538_5734076687643022979_n.jpg" : "https://www.instagram.com/p/Cokv1cys5sa/?img_index=2",
+            "348660105_1363155094463833_6776838984752905254_n.jpg" : "https://www.instagram.com/p/CsoVcwiM5hm/?img_index=2",
+            "348681880_274928201599487_3925793463735421845_n.jpg" : "https://www.instagram.com/p/CsoVcwiM5hm/?img_index=1",
+            "348818631_772869877701998_4429023202724801607_n.jpg" : "https://www.instagram.com/p/CsoVcwiM5hm/?img_index=3",
+            "357632386_229262029928789_5868191553304686982_n.jpg" : "https://www.instagram.com/p/CuR0zxCsad8/?img_index=2",
+            "357652951_663420065829721_1641406636886733393_n.jpg" : "https://www.instagram.com/p/CuR0zxCsad8/?img_index=1",
+            "379104976_319684310566434_7125174010941721241_n.jpg" : "https://www.instagram.com/p/CxYSmlFMT8R/?img_index=2",
+            "379748626_701117005375218_7150275496719859700_n.jpg" : "https://www.instagram.com/p/CxYSmlFMT8R/?img_index=1",
+            "403866353_1030239794891752_8098097139856225297_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=6",
+            "403876535_312527128302192_2575796515404479392_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=3",
+            "403901203_358147993393074_2906846790838200513_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=9",
+            "403913980_852936362982344_8444198095123025872_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=4",
+            "403920998_863929845516677_7094013885253585775_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=2",
+            "403935782_851437223127653_326357664898282142_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=7",
+            "404003982_266485459355974_4977840457303635912_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=10",
+            "404278625_1077769259928312_3939611774067378856_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=5",
+            "404297250_886170499695443_6546232639578471269_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=8",
+            "404615761_6766892033386654_7194071670565617538_n.jpg" : "https://www.instagram.com/p/Cz_9p_gMafa/?img_index=1",
+            "409834728_1168043330839143_5732454096079073284_n.jpg" : "https://www.instagram.com/p/C0zvQIoMj2F/",
+            "430139448_703722345256795_2234734988310994480_n.jpg" : "https://www.instagram.com/p/C36JjCINIU8/",
+            "431727885_243490138851880_7532354059004998143_n.jpg" : "https://www.instagram.com/p/C4QXEkysqPF/?img_index=1",
+            "431739981_693809586020462_2607774824387214143_n.jpg" : "https://www.instagram.com/p/C4QXEkysqPF/?img_index=3",
+            "432263626_786190090057013_95078692454749474_n.jpg" : "https://www.instagram.com/p/C4QXEkysqPF/?img_index=2",
+            "434319669_924329062522088_2544868518857467300_n.jpg" : "https://www.instagram.com/p/C4-zrD_tB3N/?img_index=3",
+            "434372708_271466662670051_6191286487608731893_n.jpg" : "https://www.instagram.com/p/C4-zrD_tB3N/?img_index=1",
+            "434373123_403347515736538_3524584278927775997_n.jpg" : "https://www.instagram.com/p/C4-zrD_tB3N/?img_index=4",
+            "434385757_2225663481100296_6930811739104755334_n.jpg" : "https://www.instagram.com/p/C4-zrD_tB3N/?img_index=7",
+            "434560686_939369987799544_7457467513901683757_n.jpg" : "https://www.instagram.com/p/C4-zrD_tB3N/?img_index=2",
+            "434575475_445254001177685_3198966088330390938_n.jpg" : "https://www.instagram.com/p/C4-zrD_tB3N/?img_index=5",
+            "434583121_385358877740343_4242455411100490469_n.jpg" : "https://www.instagram.com/p/C4-zrD_tB3N/?img_index=8",
+            "434585536_1452920138938422_7870073810096242131_n.jpg" : "https://www.instagram.com/p/C5BsvNNMuC0/",
+            "434644155_8151836368164758_6676807940150559758_n.jpg" : "https://www.instagram.com/p/C4-zrD_tB3N/?img_index=6",
+            "443697227_452464020812936_1878033650786661227_n.jpg" : "https://www.instagram.com/p/C7SSVSPsNCi/?img_index=2",
+            "443711038_472661698501296_6247471709461424335_n.jpg" : "https://www.instagram.com/p/C7SSVSPsNCi/?img_index=3",
+            "443713689_465044325899308_3949933498012397205_n.jpg" : "https://www.instagram.com/p/C7SSVSPsNCi/?img_index=1",
+            "445920009_796968859064479_5089331880617709489_n.jpg" : "https://www.instagram.com/p/C7SSVSPsNCi/?img_index=4",
+            "128244526_1284485388583463_4875129848864868935_n.jpg" : "https://www.instagram.com/p/CIOT9soAA8B/",
+            "133693229_4194738590543338_6634803376812813783_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=4",
+            "133703699_177557294057106_152233299000776752_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=7",
+            "133723632_516292092612504_2289212282860717955_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=5",
+            "133749882_750581945573755_8132714465297369805_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=6",
+            "133764692_687809268559361_923582293113038365_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=2",
+            "133808238_1628085647392558_4067048411848017558_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=1",
+            "133850830_1640047006168292_7227742987337863496_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=8",
+            "133956772_2700464120204203_7027439825837644104_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=9",
+            "134153666_714799645876096_4585804879504671416_n.jpg" : "https://www.instagram.com/p/CJbtUI1giGd/?img_index=3",
+            "136733312_972879993456370_4875429378726232353_n.jpg" : "https://www.instagram.com/p/CJ84kxbAL_J/?img_index=3",
+            "137362156_743397922979945_1403280432994441229_n.jpg" : "https://www.instagram.com/p/CJ84kxbAL_J/?img_index=4",
+            "137576947_471007307234815_2847896449658653805_n.jpg" : "https://www.instagram.com/p/CJ84kxbAL_J/?img_index=2",
+            "240588338_890226471584215_1838057844746453203_n.jpg" : "https://www.instagram.com/p/CTFc2ydjPDA/",
+            "242297766_893546158236524_5708533744045692013_n.jpg" : "https://www.instagram.com/p/CUC-hMqsHgs/?img_index=3",
+            "242301394_561073595009783_7362810875218644130_n.jpg" : "https://www.instagram.com/p/CUC-hMqsHgs/?img_index=2",
+            "242514070_4818381414841031_5273764073799061111_n.jpg" : "https://www.instagram.com/p/CUC-hMqsHgs/?img_index=1",
+            "271668602_364117605444428_5027745282485773050_n.jpg" : "https://www.instagram.com/p/CYpRjFFMP3-/?img_index=1",
+            "271767022_601440397591707_807881983997068899_n.jpg" : "https://www.instagram.com/p/CYpRjFFMP3-/?img_index=2",
+            "275944087_106696538642801_905946894631932305_n.jpg" : "https://www.instagram.com/p/CbNqaDcgcEs/",
+            "277293639_301926395416364_3391723065579694754_n.jpg" : "https://www.instagram.com/p/CbqMpa5ASc9/?img_index=1",
+            "277327130_1033207853940516_6602218388641183743_n.jpg" : "https://www.instagram.com/p/CbqMpa5ASc9/?img_index=6",
+            "277360955_499403481764186_480752843287754683_n.jpg" : "https://www.instagram.com/p/CbqMpa5ASc9/?img_index=4",
+            "277364218_357727909599654_3486239917007331304_n.jpg" : "https://www.instagram.com/p/CbqMpa5ASc9/?img_index=2",
+            "277405514_1423880591381718_8860763814843914601_n.jpg" : "https://www.instagram.com/p/CbqMpa5ASc9/?img_index=3",
+            "277452014_142852384899048_8029098392487611978_n.jpg" : "https://www.instagram.com/p/CbqMpa5ASc9/?img_index=5",
+            "277855850_313337087558923_5294023773796853475_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=9",
+            "277895207_3143266335927087_6035585768375324255_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=4",
+            "277906350_1685653118444392_2784632074200714331_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=1",
+            "277923776_683036736258579_5317754749215201111_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=5",
+            "277933897_722265225802908_8705359824364130055_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=7",
+            "277940743_179119421107191_2840370233328819878_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=8",
+            "277943100_285065507116443_5065403549562784173_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=2",
+            "277951896_649352659494311_1375335267746063415_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=6",
+            "277981009_353942260009210_477109994386219670_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=10",
+            "278117269_725293258837650_5919728880910255273_n.jpg" : "https://www.instagram.com/p/CcAzsYPMWgT/?img_index=3",
+            "279656495_1408718109564094_6208944985701765529_n.jpg" : "https://www.instagram.com/p/CdICkGysGBs/?img_index=8",
+            "279673646_1042099136664200_2335803764956703780_n.jpg" : "https://www.instagram.com/p/CdICkGysGBs/?img_index=5",
+            "279676826_110839864855936_1289073776335415697_n.jpg" : "https://www.instagram.com/p/CdICkGysGBs/?img_index=7",
+            "279715118_337606315106579_915208330745830139_n.jpg" : "https://www.instagram.com/p/CdICkGysGBs/?img_index=3",
+            "279732635_1873486652841944_734383603418812236_n.jpg" : "https://www.instagram.com/p/CdICkGysGBs/?img_index=6",
+            "279774005_2265062220339030_2034359383175864186_n.jpg" : "https://www.instagram.com/p/CdICkGysGBs/?img_index=2",
+            "279786137_3295803274000153_1611227131215441587_n.jpg" : "https://www.instagram.com/p/CdICkGysGBs/?img_index=10",
+            "279938999_7323600364379654_5591073690915806608_n.jpg" : "https://www.instagram.com/p/CdICkGysGBs/?img_index=9",
+            "284453187_417117093603102_6595144613614127961_n.jpg" : "https://www.instagram.com/p/CeL8wu-MbKV/?img_index=5",
+            "284462367_421408279556349_1199006682281810675_n.jpg" : "https://www.instagram.com/p/CeL8wu-MbKV/?img_index=7",
+            "284547231_1193126964850817_2864277368931621886_n.jpg" : "https://www.instagram.com/p/CeL8wu-MbKV/?img_index=4",
+            "284767249_708972110381082_7619524562572904874_n.jpg" : "https://www.instagram.com/p/CeL8wu-MbKV/?img_index=6",
+            "284785866_1716068152076427_3065873282334644768_n.jpg" : "https://www.instagram.com/p/CeL8wu-MbKV/?img_index=2",
+            "285042835_4781355728642933_5695183662421765733_n.jpg" : "https://www.instagram.com/p/CeL8wu-MbKV/?img_index=1",
+            "285043702_751497319345681_1292338735938818323_n.jpg" : "https://www.instagram.com/p/CeL8wu-MbKV/?img_index=3",
+            "290535541_2301421796687464_4255988163521264649_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=7",
+            "290568733_1145464452978339_7635653329136744824_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=4",
+            "290585168_762522555105066_8582226286865600803_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=8",
+            "290613141_139477188734059_654505131813033073_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=1",
+            "290634660_158028716776290_1902911909368379877_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=2",
+            "290641661_703648700715924_4297084553850319286_n.jpg" : "https://www.instagram.com/p/CfcKUY4MQsB/?img_index=8",
+            "290678035_578361883733173_3676912260138707599_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=6",
+            "290689801_1079064792711848_9014279306331271616_n.jpg" : "https://www.instagram.com/p/CfcKUY4MQsB/?img_index=3",
+            "290706291_1024121958289532_3509314414496396307_n.jpg" : "https://www.instagram.com/p/CfZi9NEslOG/?img_index=3",
+            "290706966_423098059696612_8866175061682194051_n.jpg" : "https://www.instagram.com/p/CfcKUY4MQsB/?img_index=4",
+            "290803814_120375660547390_1090881092958516552_n.jpg" : "https://www.instagram.com/p/CfcKUY4MQsB/?img_index=7",
+            "290804453_620327879025683_7792940009975870579_n.jpg" : "https://www.instagram.com/p/CfcKUY4MQsB/?img_index=1"
+        };
 
+        function shuffle(array) {
+            let currentIndex = array.length;
+
+            // While there remain elements to shuffle...
+            while (currentIndex != 0) {
+
+                // Pick a remaining element...
+                let randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+
+                // And swap it with the current element.
+                [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+        shuffledKeys = shuffle(Object.keys(metadata));
+
+
+        let images = shuffledKeys.map((hest) => {
+            return `<div class="masonry-grid-item">
+                <img class="card-img-top" src="/assets/img/misc/${hest}">
+                <a href="${metadata[hest]}" class="stretched-link"></a>
+                </div>`
+        }).join('');
+        
+        let html = `</div><div class="masonry-grid"><div class="masonry-grid-sizer">${images}</div>`;
+        document.getElementById('gallery-content').innerHTML = html;
+
+        var grid = document.querySelector('.masonry-grid');
+        var msnry = new Masonry( grid, {
+            itemSelector: '.masonry-grid-item',
+            columnWidth: '.masonry-grid-sizer',
+            percentPosition: true
+        });
+    </script>
 </body>
 </html>
