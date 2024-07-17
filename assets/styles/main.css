@@ -86,3 +86,11 @@
 .landing-image img {
     filter: brightness(62%);
 }
+
+@media(max-width:400px) {
+    .card-img-top {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+}
